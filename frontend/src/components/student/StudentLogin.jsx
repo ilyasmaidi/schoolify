@@ -7,6 +7,8 @@ import { z } from "zod";
 import { Button } from "../ui/button.jsx";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form.jsx";
 import { Input } from "../ui/input.jsx";
+import axios from "axios";
+import { axiosClient } from "../../api/axios.jsx";
 
 // Define the schema using zod
 const formSchema = z.object({
@@ -19,17 +21,17 @@ export default function StudentLogin() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues:{
-      username : '',
-      password : ''
+      username : 'ilyasmaidx@gmail.com',
+      password : '12345678'
     }
   });
 
   // Define a submit handler
-  function onSubmit(values) {
+  const onSubmit = async values => { // Error might be here
     // Do something with the form values
-    // ✅ This will be type-safe and validated
-    console.log(values);
-  }
+    const data = await axiosClient.post('/login', values);
+    console.log(data);
+  };
 
   return (
     <Form {...form}>
